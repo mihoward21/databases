@@ -9,9 +9,11 @@ var headers = {
 exports.collectData = function(request, cb){
   var data = "";
   request.on("data", function(chunk){
+    console.log('collecting data');
     data += chunk;
   });
   request.on("end", function(){
+    console.log('ending data collection');
     cb(null, JSON.parse(data));
   });
 };
