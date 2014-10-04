@@ -1,5 +1,6 @@
 var Sequelize = require("sequelize");
 var sequelize = new Sequelize("chat", "root");
+var initialize = require("./initializeSequelize");
 // var mysql = require('mysql');
 // var mysql = require('mysql');
 /* If the node mysql module is not found on your system, you may
@@ -16,7 +17,7 @@ var Message = sequelize.define('Message', {
 });
 
 exports.findAllMessages = function(cb){
-  User.findAll().success(function(result) {
+  initialize.Message.findAll().success(function(result) {
     cb(result);
   }).error(function(errors){
     console.log(errors);
@@ -24,7 +25,7 @@ exports.findAllMessages = function(cb){
 };
 
 exports.findUser = function(username, cb){
-  User.findAll({ where: {username: username} }).success(function(result) {
+  initialize.User.findAll({ where: {username: username} }).success(function(result) {
     cb(result);
   }).error(function(errors){
     console.log(errors);
@@ -32,7 +33,7 @@ exports.findUser = function(username, cb){
 };
 
 exports.saveUser = function(username, cb){
-  var newUser = User.build({username: username});
+  var newUser = initialize.User.build({username: username});
   newUser.save().success(function(result) {
     cb(result);
   }).error(function(errors){
@@ -41,7 +42,7 @@ exports.saveUser = function(username, cb){
 };
 
 exports.saveMessage = function(message, userid, roomname, cb){
-  var newMessage = Message.build({userid: userid, text: message, roomname: roomname});
+  var newMessage = initialize.Message.build({userid: userid, text: message, roomname: roomname});
   newMessage.save().success(function() {
     cb();
   }).error(function(errors){
