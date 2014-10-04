@@ -1,4 +1,6 @@
-var mysql = require('mysql');
+var Sequelize = require("sequelize");
+var sequelize = new Sequelize("chat", "root");
+// var mysql = require('mysql');
 // var mysql = require('mysql');
 /* If the node mysql module is not found on your system, you may
  * need to do an "sudo npm install -g mysql". */

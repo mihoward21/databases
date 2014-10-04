@@ -22,14 +22,14 @@ describe("Persistent Node Chat Server", function() {
 
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
-    dbConnection.query("truncate " + tablename, done);
+    dbConnection.query("describe " + tablename, done);
   });
 
   afterEach(function() {
     dbConnection.end();
   });
 
-  xit("Should insert posted messages to the DB", function(done) {
+  it("Should insert posted messages to the DB", function(done) {
     // Post a message to the node chat server:
     request({method: "POST",
              uri: "http://127.0.0.1:3000/classes/messages",
@@ -40,7 +40,6 @@ describe("Persistent Node Chat Server", function() {
             function () {
               /* Now if we look in the database, we should find the
                * posted message there. */
-
               //var queryString = "INSERT INTO messages (Text, room, user) VALUES (?, ?, ?)";
               var queryString = "SELECT * FROM messages";
               var queryArgs = ["In mercys name, three days is all I need.","Hello","Valjean"];
@@ -48,7 +47,6 @@ describe("Persistent Node Chat Server", function() {
                * The exact query string and query args to use
                * here depend on the schema you design, so I'll leave
                * them up to you. */
-              console.log("running insert");
               dbConnection.query( queryString, queryArgs,
                 function(err, results) {
                   if (err){console.log('ERROR', err)}
@@ -65,10 +63,10 @@ describe("Persistent Node Chat Server", function() {
             });
   });
 
-  it("Should output all messages from the DB", function(done) {
+  xit("Should output all messages from the DB", function(done) {
     // Let's insert a message into the db
-    var queryString = "SELECT Text FROM messages";
-    var queryArgs = [];
+    var queryString = "INSERT INTO messages (Text, room, user) VALUES (?,?,?)";
+    var queryArgs = ["Men like you can never change!", "main", 1];
     /* TODO - The exact query string and query args to use
      * here depend on the schema you design, so I'll leave
      * them up to you. */
@@ -81,8 +79,8 @@ describe("Persistent Node Chat Server", function() {
         request("http://127.0.0.1:3000/classes/messages",
           function(error, response, body) {
             var messageLog = JSON.parse(body);
-            expect(messageLog[0].text).to.equal("Men like you can never change!");
-            expect(messageLog[0].roomname).to.equal("main");
+            expect(messageLog[0].Text).to.equal("Men like you can never change!");
+            expect(messageLog[0].room).to.equal("main");
             done();
           });
       });

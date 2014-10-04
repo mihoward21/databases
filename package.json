@@ -8,7 +8,8 @@
     "mocha": "^1.21.4",
     "mysql": "^2.5.1",
     "nodemon": "^1.2.1",
-    "request": "^2.44.0"
+    "request": "^2.44.0",
+    "sequelize": "^2.0.0-rc1"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha -R dot SQL/spec/LiveSpec.js"
